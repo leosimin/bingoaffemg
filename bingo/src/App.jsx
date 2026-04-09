@@ -81,6 +81,12 @@ function App() {
         ? initialState.nomeVencedor
         : '',
   )
+  const [ultimoNumero, setUltimoNumero] = useState(
+    () =>
+      initialState && typeof initialState.ultimoNumero === 'number'
+        ? initialState.ultimoNumero
+        : null,
+  )
   const [vencedores, setVencedores] = useState(
     () =>
       initialState && Array.isArray(initialState.vencedores)
@@ -99,6 +105,7 @@ function App() {
       const data = {
         marcados: Array.from(marcados),
         ultimaFrase,
+        ultimoNumero,
         rodadaAtual,
         rodadaParaRegistrar,
         nomeVencedor,
@@ -108,7 +115,7 @@ function App() {
     } catch (error) {
       console.error('Erro ao salvar estado do bingo:', error)
     }
-  }, [marcados, ultimaFrase, rodadaAtual, rodadaParaRegistrar, nomeVencedor, vencedores])
+  }, [marcados, ultimaFrase, ultimoNumero, rodadaAtual, rodadaParaRegistrar, nomeVencedor, vencedores])
 
   const alternarNumero = (numero) => {
     setMarcados((anteriores) => {
@@ -119,6 +126,7 @@ function App() {
         proximo.delete(numero)
       } else {
         proximo.add(numero)
+        setUltimoNumero(numero)
         const frase = MENSAGENS_ESPECIAIS[numero]
         if (frase) {
           setUltimaFrase(`${numero}: ${frase}`)
@@ -132,6 +140,7 @@ function App() {
   const limparMarcacoes = () => {
     setMarcados(new Set())
     setUltimaFrase('')
+    setUltimoNumero(null)
   }
 
   const registrarVencedor = () => {
@@ -190,6 +199,7 @@ function App() {
   const resetGeral = () => {
     setMarcados(new Set())
     setUltimaFrase('')
+    setUltimoNumero(null)
     setRodadaAtual(1)
     setRodadaParaRegistrar(null)
     setNomeVencedor('')
@@ -247,7 +257,20 @@ function App() {
                 Encontro de Pensionistas
               </p>
             </div>
-          </div>            
+          </div>
+
+          <div className="ba-header-meta">
+            {ultimoNumero === null ? (
+              <div className="ba-current-number ba-current-number--empty">
+                <span className="ba-current-label">Aguardando o primeiro número</span>
+              </div>
+            ) : (
+              <div className="ba-current-number">
+                <span className="ba-current-label">Número sorteado</span>
+                <span className="ba-current-value">{ultimoNumero}</span>
+              </div>
+            )}
+          </div>
         </div>
 
         <div className="ba-header-bottom">

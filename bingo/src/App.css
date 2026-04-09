@@ -97,7 +97,7 @@
   display: flex;
   flex-direction: column;
   align-items: flex-end;
-  gap: 8px;
+  gap: 10px;
 }
 
 .ba-chip {
@@ -114,6 +114,46 @@
   border-color: rgba(251, 191, 36, 0.9);
   color: #1f2933;
   font-weight: 600;
+}
+
+.ba-current-number {
+  min-width: 190px;
+  padding: 15px 50px;
+  border-radius: 999px;
+  background: radial-gradient(circle at top left, #ecfdf5, #dcfce7);
+  border: 1px solid rgba(34, 197, 94, 0.7);
+  box-shadow:
+    0 10px 24px rgba(22, 101, 52, 0.35),
+    0 0 0 1px rgba(255, 255, 255, 0.95) inset;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+}
+
+.ba-current-label {
+  font-size: 24px;
+  margin-top: 12px;
+  text-transform: uppercase;
+  letter-spacing: 0.18em;
+  color: #047857;
+}
+
+.ba-current-value {
+  margin-top: 20px;
+  font-size: 60px;
+  font-weight: 700;
+  line-height: 1;
+  color: #095241;
+}
+
+.ba-current-number--empty {
+  background: rgba(15, 23, 42, 0.2);
+  border-color: rgba(148, 163, 184, 0.7);
+  box-shadow: none;
+}
+
+.ba-current-number--empty .ba-current-label {
+  color: #e5e7eb;
 }
 
 .ba-header-bottom {
