@@ -104,7 +104,6 @@ st.markdown("""
 # Criamos 5 colunas. A logo fica na 3ª (a do meio).
 # Os números dizem que as laterais são largas e o meio é estreito.
 col_logo1, col_logo2, col_logo3, col_logo4, col_logo5 = st.columns()
-
 with col_logo3:
     # O parâmetro 'use_container_width=True' faz ela respeitar o tamanho da coluna estreita
     st.image("https://cdn.prod.website-files.com/5e18db1989b3944e9ee4778b/5e43078c68b52b8cba3ac668_Logo-AFFEMG_256x.png", use_container_width=True)
