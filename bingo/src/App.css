@@ -138,14 +138,14 @@
 
 .ba-current-label {
   font-size: 40px;
-  margin-top: 12px;
+  margin-top: 7px;
   text-transform: uppercase;
   letter-spacing: 0.18em;
   color: #047857;
 }
 
 .ba-current-value {
-  margin-top: 20px;
+  margin-top: 10px;
   font-size: 120px;
   font-weight: 700;
   line-height: 1;
