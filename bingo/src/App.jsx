@@ -357,9 +357,9 @@ function App() {
               <button
                 key={numero}
                 type="button"
-                className={`ba-cell ${
-                  marcados.has(numero) ? 'ba-cell--marcado' : ''
-                }`}
+                className={`ba-cell${
+                  marcados.has(numero) ? ' ba-cell--marcado' : ''
+                }${ultimoNumero === numero ? ' ba-cell--recent' : ''}`}
                 onClick={() => alternarNumero(numero)}
                 aria-pressed={marcados.has(numero)}
               >
