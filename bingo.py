@@ -11,8 +11,10 @@ st_autorefresh(interval=3000, key="bingofresher")
 # --- FUNÇÃO DE SINCRONIZAÇÃO (BINGO COMPARTILHADO) ---
 @st.cache_resource
 def iniciar_bingo_compartilhado():
+    # Isso cria uma lista que todos os usuários conectados verão igual
     return {"lista": []}
 
+# Conecta ao estado global
 bingo_global = iniciar_bingo_compartilhado()
 
 # --- DICIONÁRIO DE APELIDOS DAS PEDRAS ---
@@ -33,7 +35,7 @@ APELIDOS = {
     75: "Fim da linha! É o fim do globo!"
 }
 
-# --- ESTILIZAÇÃO CSS ---
+# --- ESTILIZAÇÃO CSS (VISUAL DIVERTIDO E GIGANTE) ---
 st.markdown("""
     <style>
     .titulo-principal {
@@ -98,8 +100,9 @@ st.markdown("""
     </style>
     """, unsafe_allow_html=True)
 
-# --- CABEÇALHO COM LOGO (CORRIGIDO) ---
-col_logo1, col_logo2, col_logo3 = st.columns()
+# --- CABEÇALHO COM LOGO ---
+# Corrigido: definindo 3 colunas explicitamente
+col_logo1, col_logo2, col_logo3 = st.columns(3) 
 with col_logo2:
     st.image("https://cdn.prod.website-files.com/5e18db1989b3944e9ee4778b/5e43078c68b52b8cba3ac668_Logo-AFFEMG_256x.png", width=300)
 
@@ -108,7 +111,8 @@ st.markdown('<p class="frase-efeito">Encontro de Pensionistas: Alegria e Sorte!<
 
 # --- 3. CONTROLE DO ALEXANDRE ---
 with st.expander("⚙️ PAINEL DE CONTROLE (Alexandre)", expanded=True):
-    c1, c2 = st.columns(2)
+    # Corrigido: definindo 2 colunas explicitamente
+    c1, c2 = st.columns(2) 
     with c1:
         entrada = st.number_input("Digite o número sorteado (1-75):", min_value=1, max_value=75, step=1, value=None)
         if entrada and entrada not in bingo_global["lista"]:
@@ -147,7 +151,8 @@ st.write("---")
 
 # --- 5. GRADE GERAL (1-75) ---
 for row in range(5):
-    cols = st.columns(15)
+    # Corrigido: definindo 15 colunas explicitamente
+    cols = st.columns(15) 
     for col_idx in range(15):
         num = row * 15 + col_idx + 1
         if num <= 75:
