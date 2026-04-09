@@ -11,10 +11,8 @@ st_autorefresh(interval=3000, key="bingofresher")
 # --- FUNÇÃO DE SINCRONIZAÇÃO (BINGO COMPARTILHADO) ---
 @st.cache_resource
 def iniciar_bingo_compartilhado():
-    # Isso cria uma lista que todos os usuários conectados verão igual
     return {"lista": []}
 
-# Conecta ao estado global
 bingo_global = iniciar_bingo_compartilhado()
 
 # --- DICIONÁRIO DE APELIDOS DAS PEDRAS ---
@@ -35,7 +33,7 @@ APELIDOS = {
     75: "Fim da linha! É o fim do globo!"
 }
 
-# --- ESTILIZAÇÃO CSS (VISUAL DIVERTIDO E GIGANTE) ---
+# --- ESTILIZAÇÃO CSS ---
 st.markdown("""
     <style>
     .titulo-principal {
@@ -100,16 +98,15 @@ st.markdown("""
     </style>
     """, unsafe_allow_html=True)
 
-# --- CABEÇALHO COM LOGO ---
+# --- CABEÇALHO COM LOGO (CORRIGIDO) ---
 col_logo1, col_logo2, col_logo3 = st.columns()
 with col_logo2:
-    # Insere a logo oficial da AFFEMG
     st.image("https://cdn.prod.website-files.com/5e18db1989b3944e9ee4778b/5e43078c68b52b8cba3ac668_Logo-AFFEMG_256x.png", width=300)
 
 st.markdown('<p class="titulo-principal">🎊 BINGO AFFEMG 🎊</p>', unsafe_allow_html=True)
 st.markdown('<p class="frase-efeito">Encontro de Pensionistas: Alegria e Sorte!</p>', unsafe_allow_html=True)
 
-# --- 3. CONTROLE DO ALEXANDRE (Ocultável para a TV) ---
+# --- 3. CONTROLE DO ALEXANDRE ---
 with st.expander("⚙️ PAINEL DE CONTROLE (Alexandre)", expanded=True):
     c1, c2 = st.columns(2)
     with c1:
