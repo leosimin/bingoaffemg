@@ -16,7 +16,7 @@
   color: #f9fafb;
   position: relative;
   overflow: hidden;
-  font-family: 'Arial' BlinkMacSystemFont, 'SI', sans-serif;
+  font-family: 'DM Sans', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
 }
 
 .ba-header::after {
@@ -360,6 +360,13 @@
   color: #6b7280;
 }
 
+.ba-actions {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin: 8px 0 0;
+}
+
 .ba-reset {
   display: inline-flex;
   align-items: center;
@@ -396,6 +403,140 @@
   margin-top: 18px;
   font-size: 14px;
   color: #6b7280;
+}
+
+.ba-rounds {
+  margin-top: 18px;
+  padding-top: 14px;
+  border-top: 1px dashed rgba(148, 163, 184, 0.6);
+}
+
+.ba-rounds h4 {
+  margin: 0 0 4px;
+  font-size: 18px;
+}
+
+.ba-rounds-current {
+  margin: 0 0 10px;
+  font-size: 15px;
+  color: #4b5563;
+}
+
+.ba-rounds-form-card {
+  margin-top: 12px;
+  padding: 10px 12px 12px;
+  border-radius: 14px;
+  background: linear-gradient(135deg, rgba(239, 246, 255, 0.95), rgba(219, 234, 254, 0.98));
+  border: 1px solid rgba(59, 130, 246, 0.55);
+  box-shadow: 0 10px 24px rgba(15, 23, 42, 0.08);
+}
+
+.ba-rounds-info {
+  margin: 0 0 8px;
+  font-size: 14px;
+  color: #1e293b;
+}
+
+.ba-rounds-form {
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  gap: 8px;
+}
+
+.ba-input {
+  flex: 1;
+  border-radius: 999px;
+  border: 1px solid rgba(148, 163, 184, 0.9);
+  padding: 8px 14px;
+  font-size: 14px;
+  font-family: inherit;
+  background: #f9fafb;
+  color: #111827;
+}
+
+.ba-input::placeholder {
+  color: #9ca3af;
+}
+
+.ba-input:focus-visible {
+  outline: 2px solid #0ea5e9;
+  outline-offset: 1px;
+  background: #ffffff;
+}
+
+.ba-button {
+  border-radius: 999px;
+  border: none;
+  padding: 8px 14px;
+  font-size: 14px;
+  font-weight: 500;
+  cursor: pointer;
+  background: linear-gradient(135deg, #0369a1, #0b4f79);
+  color: #ffffff;
+  box-shadow: 0 8px 18px rgba(3, 105, 161, 0.3);
+  transition:
+    transform 0.12s ease-out,
+    box-shadow 0.12s ease-out,
+    opacity 0.12s ease-out;
+}
+
+.ba-rounds-form .ba-button {
+  align-self: flex-end;
+}
+
+.ba-button:hover:not(:disabled) {
+  transform: translateY(-1px);
+  box-shadow: 0 10px 22px rgba(3, 105, 161, 0.4);
+}
+
+.ba-button:disabled {
+  opacity: 0.6;
+  cursor: default;
+  box-shadow: none;
+}
+
+.ba-button--secondary {
+  margin-bottom: 10px;
+  margin-top: 2px;
+  background: #e5e7eb;
+  color: #111827;
+  box-shadow: 0 1px 2px rgba(15, 23, 42, 0.12);
+}
+
+.ba-rounds-list {
+  list-style: none;
+  padding: 6px 8px;
+  margin: 8px 0 0;
+  max-height: 170px;
+  overflow-y: auto;
+  border-radius: 14px;
+  background: radial-gradient(circle at top left, #eff6ff, #e0f2fe);
+  border: 1px solid rgba(59, 130, 246, 0.45);
+}
+
+.ba-rounds-item {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 20px;
+  padding: 4px 6px;
+}
+
+.ba-round-pill {
+  padding: 4px 12px;
+  border-radius: 999px;
+  background: #eff6ff;
+  color: #1d4ed8;
+  border: 1px solid rgba(59, 130, 246, 0.6);
+  font-size: 14px;
+  font-weight: 600;
+}
+
+.ba-round-name {
+  flex: 1;
+  font-weight: 700;
+  color: #0f172a;
 }
 
 .ba-footer {

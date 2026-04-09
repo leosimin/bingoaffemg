@@ -24,6 +24,10 @@ const MENSAGENS_ESPECIAIS = {
 function App() {
   const [marcados, setMarcados] = useState(() => new Set())
   const [ultimaFrase, setUltimaFrase] = useState('')
+  const [rodadaAtual, setRodadaAtual] = useState(1)
+  const [rodadaParaRegistrar, setRodadaParaRegistrar] = useState(null)
+  const [nomeVencedor, setNomeVencedor] = useState('')
+  const [vencedores, setVencedores] = useState([])
 
   const numeros = Array.from({ length: 75 }, (_, i) => i + 1)
   const totalNumeros = numeros.length
@@ -51,6 +55,25 @@ function App() {
   const limparMarcacoes = () => {
     setMarcados(new Set())
     setUltimaFrase('')
+  }
+
+  const registrarVencedor = () => {
+    const nome = nomeVencedor.trim()
+    if (!nome || !rodadaParaRegistrar) return
+
+    setVencedores((anteriores) => [
+      ...anteriores,
+      { rodada: rodadaParaRegistrar, nome },
+    ])
+    setNomeVencedor('')
+    setRodadaParaRegistrar(null)
+    setRodadaAtual((atual) => atual + 1)
+  }
+
+  const marcarBingo = () => {
+    if (rodadaParaRegistrar) return
+    setRodadaParaRegistrar(rodadaAtual)
+    setNomeVencedor('')
   }
 
   const numerosMarcadosOrdenados = Array.from(marcados).sort((a, b) => a - b)
@@ -166,6 +189,57 @@ function App() {
               <p className="ba-callout-text">{ultimaFrase}</p>
             </div>
           )}
+
+          <div className="ba-rounds">
+            <h4>Rodadas</h4>
+            <p className="ba-rounds-current">
+              Rodada atual: <strong>{rodadaAtual}</strong>
+            </p>
+            <button
+              type="button"
+              className="ba-button"
+              onClick={marcarBingo}
+              disabled={!!rodadaParaRegistrar}
+            >
+              Bingo!
+            </button>
+
+            {rodadaParaRegistrar && (
+              <div className="ba-rounds-form-card">
+                <p className="ba-rounds-info">
+                  Registrar vencedor da rodada <strong>{rodadaParaRegistrar}</strong>
+                </p>
+                <div className="ba-rounds-form">
+                  <input
+                    type="text"
+                    className="ba-input"
+                    placeholder="Digite o nome do vencedor"
+                    value={nomeVencedor}
+                    onChange={(event) => setNomeVencedor(event.target.value)}
+                  />
+                  <button
+                    type="button"
+                    className="ba-button"
+                    onClick={registrarVencedor}
+                    disabled={!nomeVencedor.trim()}
+                  >
+                    Registrar vencedor
+                  </button>
+                </div>
+              </div>
+            )}
+
+            {vencedores.length > 0 && (
+              <ul className="ba-rounds-list">
+                {vencedores.map((item, index) => (
+                  <li key={`${item.rodada}-${index}`} className="ba-rounds-item">
+                    <span className="ba-round-pill">Rodada {item.rodada}</span>
+                    <span className="ba-round-name">{item.nome}</span>
+                  </li>
+                ))}
+              </ul>
+            )}
+          </div>
         </aside>
       </main>
 
