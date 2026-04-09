@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import confetti from 'canvas-confetti'
 import affemgLogo from './assets/AFFEMG esfera (1).png'
 import './App.css'
@@ -81,6 +81,12 @@ function App() {
         ? initialState.nomeVencedor
         : '',
   )
+  const [mostrarFormRodada, setMostrarFormRodada] = useState(
+    () =>
+      initialState && typeof initialState.mostrarFormRodada === 'boolean'
+        ? initialState.mostrarFormRodada
+        : false,
+  )
   const [ultimoNumero, setUltimoNumero] = useState(
     () =>
       initialState && typeof initialState.ultimoNumero === 'number'
@@ -94,6 +100,7 @@ function App() {
         : [],
   )
   const [rodadaDetalhe, setRodadaDetalhe] = useState(null)
+  const formRodadaRef = useRef(null)
 
   const numeros = Array.from({ length: 75 }, (_, i) => i + 1)
   const totalNumeros = numeros.length
@@ -109,13 +116,34 @@ function App() {
         rodadaAtual,
         rodadaParaRegistrar,
         nomeVencedor,
+        mostrarFormRodada,
         vencedores,
       }
       globalThis.localStorage?.setItem(STORAGE_KEY, JSON.stringify(data))
     } catch (error) {
       console.error('Erro ao salvar estado do bingo:', error)
     }
-  }, [marcados, ultimaFrase, ultimoNumero, rodadaAtual, rodadaParaRegistrar, nomeVencedor, vencedores])
+  }, [marcados, ultimaFrase, ultimoNumero, rodadaAtual, rodadaParaRegistrar, nomeVencedor, mostrarFormRodada, vencedores])
+
+  // Fecha o formulário de vencedor ao clicar fora dele
+  useEffect(() => {
+    if (!mostrarFormRodada || !rodadaParaRegistrar) return
+
+    const handleClickOutside = (event) => {
+      if (!formRodadaRef.current) return
+      if (!formRodadaRef.current.contains(event.target)) {
+        setMostrarFormRodada(false)
+      }
+    }
+
+    globalThis.document?.addEventListener('mousedown', handleClickOutside)
+    globalThis.document?.addEventListener('touchstart', handleClickOutside)
+
+    return () => {
+      globalThis.document?.removeEventListener('mousedown', handleClickOutside)
+      globalThis.document?.removeEventListener('touchstart', handleClickOutside)
+    }
+  }, [mostrarFormRodada, rodadaParaRegistrar])
 
   const alternarNumero = (numero) => {
     setMarcados((anteriores) => {
@@ -167,12 +195,16 @@ function App() {
     } catch (error) {
       console.error('Erro ao disparar confete:', error)
     }
+
+    // Fecha o formulário após registrar para não ocupar espaço
+    setMostrarFormRodada(false)
   }
 
   const avancarRodada = () => {
     if (!rodadaParaRegistrar) return
     setRodadaParaRegistrar(null)
     setNomeVencedor('')
+    setMostrarFormRodada(false)
     setRodadaAtual((atual) => atual + 1)
   }
 
@@ -180,6 +212,7 @@ function App() {
     if (rodadaParaRegistrar) return
     setRodadaParaRegistrar(rodadaAtual)
     setNomeVencedor('')
+    setMostrarFormRodada(true)
   }
 
   const toggleFullscreen = () => {
@@ -203,6 +236,7 @@ function App() {
     setRodadaAtual(1)
     setRodadaParaRegistrar(null)
     setNomeVencedor('')
+    setMostrarFormRodada(false)
     setVencedores([])
 
     try {
@@ -381,8 +415,8 @@ function App() {
               Bingo!
             </button>
 
-            {rodadaParaRegistrar && (
-              <div className="ba-rounds-form-card">
+            {rodadaParaRegistrar && mostrarFormRodada && (
+              <div ref={formRodadaRef} className="ba-rounds-form-card">
                 <p className="ba-rounds-info">
                   Registrar vencedor da rodada <strong>{rodadaParaRegistrar}</strong>
                 </p>
@@ -416,6 +450,16 @@ function App() {
                   </button>
                 </form>
               </div>
+            )}
+
+            {rodadaParaRegistrar && !mostrarFormRodada && (
+              <button
+                type="button"
+                className="ba-button ba-button--secondary ba-round-open"
+                onClick={() => setMostrarFormRodada(true)}
+              >
+                Registrar vencedor da rodada {rodadaParaRegistrar}
+              </button>
             )}
 
             {vencedores.length > 0 && (

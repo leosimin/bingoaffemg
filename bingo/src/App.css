@@ -19,6 +19,12 @@
   font-family: 'DM Sans', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
 }
 
+
+.ba-round-open {
+  margin-top: 0.75rem;
+  width: 100%;
+  justify-content: center;
+}
 .ba-header::after {
   content: '';
   position: absolute;
@@ -118,7 +124,7 @@
 
 .ba-current-number {
   min-width: 190px;
-  padding: 15px 50px;
+  padding: 15px 120px;
   border-radius: 999px;
   background: radial-gradient(circle at top left, #ecfdf5, #dcfce7);
   border: 1px solid rgba(34, 197, 94, 0.7);
@@ -131,7 +137,7 @@
 }
 
 .ba-current-label {
-  font-size: 24px;
+  font-size: 40px;
   margin-top: 12px;
   text-transform: uppercase;
   letter-spacing: 0.18em;
@@ -140,7 +146,7 @@
 
 .ba-current-value {
   margin-top: 20px;
-  font-size: 60px;
+  font-size: 120px;
   font-weight: 700;
   line-height: 1;
   color: #095241;
@@ -472,13 +478,18 @@
 }
 
 .ba-rounds-current {
-  margin: 0 0 10px;
+  margin: 0 0 8px;
   font-size: 15px;
   color: #4b5563;
 }
 
+.ba-rounds > .ba-button {
+  margin-top: 4px;
+  margin-bottom: 4px;
+}
+
 .ba-rounds-form-card {
-  margin-top: 12px;
+  margin-top: 10px;
   padding: 14px 16px 14px;
   border-radius: 14px;
   background: radial-gradient(circle at top left, #eff6ff, #dbeafe);
@@ -537,12 +548,13 @@
 }
 
 .ba-rounds-form .ba-button {
-  align-self: flex-end;
+  align-self: stretch;
+  justify-content: center;
 }
 
 .ba-rounds-form .ba-round-next {
-  align-self: flex-start;
-  margin-top: 4px;
+  align-self: stretch;
+  margin-top: 2px;
 }
 
 .ba-button:hover:not(:disabled) {
@@ -559,9 +571,24 @@
 .ba-button--secondary {
   margin-bottom: 10px;
   margin-top: 2px;
-  background: #e5e7eb;
+  background: linear-gradient(135deg, #e5e7eb, #f3f4f6);
   color: #111827;
-  box-shadow: 0 1px 2px rgba(15, 23, 42, 0.12);
+  box-shadow:
+    0 2px 5px rgba(15, 23, 42, 0.12),
+    0 0 0 1px rgba(148, 163, 184, 0.45) inset;
+}
+
+.ba-round-next {
+  background: linear-gradient(135deg, #22c55e, #16a34a);
+  box-shadow:
+    0 6px 14px rgba(22, 163, 74, 0.35),
+    0 0 0 1px rgba(255, 255, 255, 0.85) inset;
+}
+
+.ba-round-open {
+  margin-top: 8px;
+  width: 100%;
+  justify-content: center;
 }
 
 .ba-rounds-list {
