@@ -552,10 +552,11 @@
 /* Responsividade */
 
 @media (max-width: 960px) {
-  .ba-header {
+  .ba-header-inner {
     flex-direction: column;
     align-items: flex-start;
     gap: 16px;
+    padding-inline: 20px;
   }
 
   .ba-header-meta {
@@ -564,42 +565,78 @@
     flex-wrap: wrap;
   }
 
+  .ba-header-bottom {
+    padding: 4px 20px 4px;
+    flex-wrap: wrap;
+  }
+
   .ba-main {
     grid-template-columns: minmax(0, 1fr);
+    gap: 24px;
+    padding: 20px;
+  }
+
+  .ba-grid {
+    grid-template-columns: repeat(auto-fit, minmax(72px, 1fr));
   }
 
   .ba-footer {
     flex-direction: column;
     gap: 4px;
     align-items: flex-start;
+    padding-inline: 20px;
   }
 }
 
 @media (max-width: 640px) {
   .ba-header {
-    padding: 16px 18px 12px;
+    padding: 14px 14px 10px;
+  }
+
+  .ba-header-inner {
+    padding-inline: 0;
   }
 
   .ba-main {
-    padding: 16px 18px 18px;
+    padding: 14px 14px 16px;
+    gap: 16px;
   }
 
   .ba-board-card,
   .ba-side-card {
-    padding: 16px 16px 18px;
+    padding: 14px 14px 16px;
   }
 
   .ba-header h1 {
-    font-size: 30px;
+    font-size: 28px;
+  }
+
+  .ba-subtitle {
+    font-size: 16px;
   }
 
   .ba-logo-wrapper {
-    width: 80px;
-    height: 80px;
+    width: 72px;
+    height: 72px;
   }
 
   .ba-logo {
-    max-width: 70px;
-    max-height: 70px;
+    max-width: 62px;
+    max-height: 62px;
+  }
+
+  .ba-grid {
+    grid-template-columns: repeat(auto-fit, minmax(64px, 1fr));
+    gap: 8px;
+  }
+
+  .ba-cell {
+    font-size: 20px;
+    padding-block: 14px;
+  }
+
+  .ba-footer {
+    padding: 10px 14px 14px;
+    align-items: flex-start;
   }
 }
