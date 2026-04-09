@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react'
+import confetti from 'canvas-confetti'
 import affemgLogo from './assets/AFFEMG esfera (1).png'
 import './App.css'
 
@@ -143,6 +144,19 @@ function App() {
     setNomeVencedor('')
     setRodadaParaRegistrar(null)
     setRodadaAtual((atual) => atual + 1)
+
+    // Efeito de festa ao registrar o vencedor
+    try {
+      confetti({
+        particleCount: 160,
+        spread: 90,
+        origin: { y: 0.3 },
+        scalar: 1.2,
+        ticks: 200,
+      })
+    } catch (error) {
+      console.error('Erro ao disparar confete:', error)
+    }
   }
 
   const marcarBingo = () => {
@@ -151,8 +165,25 @@ function App() {
     setNomeVencedor('')
   }
 
+  const toggleFullscreen = () => {
+    const doc = globalThis.document
+    if (!doc) return
+    if (!doc.fullscreenElement && doc.documentElement.requestFullscreen) {
+      doc.documentElement.requestFullscreen().catch((error) => {
+        console.error('Erro ao entrar em tela cheia:', error)
+      })
+    } else if (doc.exitFullscreen) {
+      doc.exitFullscreen().catch((error) => {
+        console.error('Erro ao sair de tela cheia:', error)
+      })
+    }
+  }
+
   const limparVencedores = () => {
     setVencedores([])
+    setRodadaAtual(1)
+    setRodadaParaRegistrar(null)
+    setNomeVencedor('')
   }
 
   const numerosMarcadosOrdenados = Array.from(marcados).sort((a, b) => a - b)
@@ -176,12 +207,7 @@ function App() {
                 Encontro de Pensionistas
               </p>
             </div>
-          </div>
-
-          <div className="ba-header-meta">
-            <div className="ba-chip ba-chip--primary">Evento especial</div>
-            <div className="ba-chip">Presencial</div>
-          </div>
+          </div>            
         </div>
 
         <div className="ba-header-bottom">
@@ -288,7 +314,13 @@ function App() {
                 <p className="ba-rounds-info">
                   Registrar vencedor da rodada <strong>{rodadaParaRegistrar}</strong>
                 </p>
-                <div className="ba-rounds-form">
+                <form
+                  className="ba-rounds-form"
+                  onSubmit={(event) => {
+                    event.preventDefault()
+                    registrarVencedor()
+                  }}
+                >
                   <input
                     type="text"
                     className="ba-input"
@@ -297,14 +329,13 @@ function App() {
                     onChange={(event) => setNomeVencedor(event.target.value)}
                   />
                   <button
-                    type="button"
+                    type="submit"
                     className="ba-button"
-                    onClick={registrarVencedor}
                     disabled={!nomeVencedor.trim()}
                   >
                     Registrar vencedor
                   </button>
-                </div>
+                </form>
               </div>
             )}
 
@@ -334,6 +365,13 @@ function App() {
       <footer className="ba-footer">
         <span>Bingo AFFEMG • {CURRENT_YEAR}</span>
         <span>Ative o modo tela cheia para uma melhor experiência.</span>
+        <button
+          type="button"
+          className="ba-button ba-button--secondary ba-fullscreen-button"
+          onClick={toggleFullscreen}
+        >
+          Tela cheia
+        </button>
       </footer>
     </div>
   )
