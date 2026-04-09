@@ -151,6 +151,10 @@ function App() {
     setNomeVencedor('')
   }
 
+  const limparVencedores = () => {
+    setVencedores([])
+  }
+
   const numerosMarcadosOrdenados = Array.from(marcados).sort((a, b) => a - b)
 
   return (
@@ -313,6 +317,15 @@ function App() {
                   </li>
                 ))}
               </ul>
+            )}
+            {vencedores.length > 0 && (
+              <button
+                type="button"
+                className="ba-reset ba-reset--small"
+                onClick={limparVencedores}
+              >
+                Limpar vencedores
+              </button>
             )}
           </div>
         </aside>

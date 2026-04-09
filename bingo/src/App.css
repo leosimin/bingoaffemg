@@ -399,6 +399,12 @@
   box-shadow: none;
 }
 
+.ba-reset--small {
+  margin-top: 8px;
+  font-size: 13px;
+  padding: 6px 12px;
+}
+
 .ba-footnote {
   margin-top: 18px;
   font-size: 14px;
