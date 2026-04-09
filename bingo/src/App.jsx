@@ -213,6 +213,26 @@ function App() {
     setRodadaParaRegistrar(rodadaAtual)
     setNomeVencedor('')
     setMostrarFormRodada(true)
+
+    // Efeito visual ao apertar "Bingo!" usando a biblioteca canvas-confetti
+    try {
+      confetti({
+        particleCount: 120,
+        angle: 60,
+        spread: 70,
+        origin: { x: 0, y: 0.6 },
+        scalar: 1,
+      })
+      confetti({
+        particleCount: 120,
+        angle: 120,
+        spread: 70,
+        origin: { x: 1, y: 0.6 },
+        scalar: 1,
+      })
+    } catch (error) {
+      console.error('Erro ao disparar confete do Bingo:', error)
+    }
   }
 
   const toggleFullscreen = () => {
