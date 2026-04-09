@@ -87,6 +87,7 @@ function App() {
         ? initialState.vencedores
         : [],
   )
+  const [rodadaDetalhe, setRodadaDetalhe] = useState(null)
 
   const numeros = Array.from({ length: 75 }, (_, i) => i + 1)
   const totalNumeros = numeros.length
@@ -137,13 +138,13 @@ function App() {
     const nome = nomeVencedor.trim()
     if (!nome || !rodadaParaRegistrar) return
 
+    const numerosRodada = Array.from(marcados).sort((a, b) => a - b)
+
     setVencedores((anteriores) => [
       ...anteriores,
-      { rodada: rodadaParaRegistrar, nome },
+      { rodada: rodadaParaRegistrar, nome, numerosRodada },
     ])
     setNomeVencedor('')
-    setRodadaParaRegistrar(null)
-    setRodadaAtual((atual) => atual + 1)
 
     // Efeito de festa ao registrar o vencedor
     try {
@@ -157,6 +158,13 @@ function App() {
     } catch (error) {
       console.error('Erro ao disparar confete:', error)
     }
+  }
+
+  const avancarRodada = () => {
+    if (!rodadaParaRegistrar) return
+    setRodadaParaRegistrar(null)
+    setNomeVencedor('')
+    setRodadaAtual((atual) => atual + 1)
   }
 
   const marcarBingo = () => {
@@ -179,14 +187,46 @@ function App() {
     }
   }
 
-  const limparVencedores = () => {
-    setVencedores([])
+  const resetGeral = () => {
+    setMarcados(new Set())
+    setUltimaFrase('')
     setRodadaAtual(1)
     setRodadaParaRegistrar(null)
     setNomeVencedor('')
+    setVencedores([])
+
+    try {
+      globalThis.localStorage?.removeItem(STORAGE_KEY)
+    } catch (error) {
+      console.error('Erro ao limpar armazenamento local:', error)
+    }
   }
 
   const numerosMarcadosOrdenados = Array.from(marcados).sort((a, b) => a - b)
+
+  const abrirDetalheRodada = (item) => {
+    setRodadaDetalhe(item)
+  }
+
+  const fecharDetalheRodada = () => {
+    setRodadaDetalhe(null)
+  }
+
+  useEffect(() => {
+    if (!rodadaDetalhe) return
+
+    const handleKeyDown = (event) => {
+      if (event.key === 'Escape') {
+        event.preventDefault()
+        setRodadaDetalhe(null)
+      }
+    }
+
+    globalThis?.addEventListener?.('keydown', handleKeyDown)
+    return () => {
+      globalThis?.removeEventListener?.('keydown', handleKeyDown)
+    }
+  }, [rodadaDetalhe])
 
   return (
     <div className="bingo-app">
@@ -253,7 +293,16 @@ function App() {
         </section>
 
         <aside className="ba-side-card">
-          <h3>Resumo do sorteio</h3>
+          <div className="ba-side-header">
+            <h3>Resumo do sorteio</h3>
+            <button
+              type="button"
+              className="ba-reset ba-reset--global"
+              onClick={resetGeral}
+            >
+              Reset geral
+            </button>
+          </div>
           <p className="ba-resume">
             <strong>{quantidadeMarcados}</strong> de {totalNumeros} números
             marcados
@@ -335,6 +384,13 @@ function App() {
                   >
                     Registrar vencedor
                   </button>
+                  <button
+                    type="button"
+                    className="ba-button ba-button--secondary ba-round-next"
+                    onClick={avancarRodada}
+                  >
+                    Próxima rodada
+                  </button>
                 </form>
               </div>
             )}
@@ -344,19 +400,19 @@ function App() {
                 {vencedores.map((item, index) => (
                   <li key={`${item.rodada}-${index}`} className="ba-rounds-item">
                     <span className="ba-round-pill">Rodada {item.rodada}</span>
-                    <span className="ba-round-name">{item.nome}</span>
+                    <div className="ba-round-winner">
+                      <span className="ba-round-name">{item.nome}</span>
+                      <button
+                        type="button"
+                        className="ba-round-view"
+                        onClick={() => abrirDetalheRodada(item)}
+                      >
+                        Ver números da rodada
+                      </button>
+                    </div>
                   </li>
                 ))}
               </ul>
-            )}
-            {vencedores.length > 0 && (
-              <button
-                type="button"
-                className="ba-reset ba-reset--small"
-                onClick={limparVencedores}
-              >
-                Limpar vencedores
-              </button>
             )}
           </div>
         </aside>
@@ -373,6 +429,38 @@ function App() {
           Tela cheia
         </button>
       </footer>
+
+      {rodadaDetalhe && (
+        <div className="ba-modal-backdrop">
+          <dialog className="ba-modal" open>
+            <div className="ba-modal-header">
+              <h3 className="ba-modal-title">Rodada {rodadaDetalhe.rodada}</h3>
+              <button
+                type="button"
+                className="ba-modal-close"
+                onClick={fecharDetalheRodada}
+              >
+                ×
+              </button>
+            </div>
+            <p className="ba-modal-subtitle">Vencedor: {rodadaDetalhe.nome}</p>
+            {Array.isArray(rodadaDetalhe.numerosRodada) &&
+            rodadaDetalhe.numerosRodada.length > 0 ? (
+              <div className="ba-modal-numbers">
+                {rodadaDetalhe.numerosRodada.map((numero) => (
+                  <span key={numero} className="ba-pill">
+                    {numero}
+                  </span>
+                ))}
+              </div>
+            ) : (
+              <p className="ba-muted ba-modal-empty">
+                Nenhum número registrado para esta rodada.
+              </p>
+            )}
+          </dialog>
+        </div>
+      )}
     </div>
   )
 }

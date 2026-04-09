@@ -321,6 +321,14 @@
   color: #0f172a;
 }
 
+.ba-side-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  margin-bottom: 6px;
+}
+
 .ba-resume {
   margin: 0 0 16px;
   font-size: 17px;
@@ -396,7 +404,12 @@
 }
 
 .ba-reset--small {
-  margin-top: 8px;
+  margin-top: 24px;
+  font-size: 13px;
+  padding: 6px 12px;
+}
+
+.ba-reset--global {
   font-size: 13px;
   padding: 6px 12px;
 }
@@ -426,16 +439,16 @@
 
 .ba-rounds-form-card {
   margin-top: 12px;
-  padding: 10px 12px 12px;
+  padding: 14px 16px 14px;
   border-radius: 14px;
-  background: linear-gradient(135deg, rgba(239, 246, 255, 0.95), rgba(219, 234, 254, 0.98));
+  background: radial-gradient(circle at top left, #eff6ff, #dbeafe);
   border: 1px solid rgba(59, 130, 246, 0.55);
   box-shadow: 0 10px 24px rgba(15, 23, 42, 0.08);
 }
 
 .ba-rounds-info {
   margin: 0 0 8px;
-  font-size: 14px;
+  font-size: 15px;
   color: #1e293b;
 }
 
@@ -487,6 +500,11 @@
   align-self: flex-end;
 }
 
+.ba-rounds-form .ba-round-next {
+  align-self: flex-start;
+  margin-top: 4px;
+}
+
 .ba-button:hover:not(:disabled) {
   transform: translateY(-1px);
   box-shadow: 0 10px 22px rgba(3, 105, 161, 0.4);
@@ -508,25 +526,32 @@
 
 .ba-rounds-list {
   list-style: none;
-  padding: 6px 8px;
-  margin: 8px 0 0;
-  max-height: 170px;
+  padding: 10px 10px 12px;
+  margin: 12px 0 0;
+  max-height: 200px;
   overflow-y: auto;
   border-radius: 14px;
-  background: radial-gradient(circle at top left, #eff6ff, #e0f2fe);
+  background: linear-gradient(135deg, #eff6ff, #dbeafe);
   border: 1px solid rgba(59, 130, 246, 0.45);
 }
 
 .ba-rounds-item {
   display: flex;
-  align-items: center;
-  gap: 10px;
-  font-size: 20px;
-  padding: 4px 6px;
+  align-items: flex-start;
+  gap: 12px;
+  font-size: 18px;
+  padding: 6px 8px;
+  border-radius: 12px;
+  background: rgba(255, 255, 255, 0.7);
+  box-shadow: 0 1px 3px rgba(15, 23, 42, 0.06);
+}
+
+.ba-rounds-item + .ba-rounds-item {
+  margin-top: 4px;
 }
 
 .ba-round-pill {
-  padding: 4px 12px;
+  padding: 6px 14px;
   border-radius: 999px;
   background: #eff6ff;
   color: #1d4ed8;
@@ -539,6 +564,87 @@
   flex: 1;
   font-weight: 700;
   color: #0f172a;
+}
+
+.ba-round-winner {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+}
+
+.ba-round-view {
+  border: none;
+  background: transparent;
+  padding: 0;
+  color: #2563eb;
+  font-size: 13px;
+  cursor: pointer;
+  text-align: left;
+}
+
+.ba-round-view:hover {
+  text-decoration: underline;
+}
+
+.ba-modal-backdrop {
+  position: fixed;
+  inset: 0;
+  background: rgba(15, 23, 42, 0.55);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 50;
+}
+
+.ba-modal {
+  background: #ffffff;
+  border-radius: 18px;
+  max-width: 520px;
+  width: 90%;
+  padding: 18px 20px 20px;
+  box-shadow:
+    0 20px 45px rgba(15, 23, 42, 0.4),
+    0 0 0 1px rgba(255, 255, 255, 0.9) inset;
+}
+
+.ba-modal-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 4px;
+}
+
+.ba-modal-title {
+  margin: 0;
+  font-size: 20px;
+  color: #0f172a;
+}
+
+.ba-modal-close {
+  border: none;
+  background: transparent;
+  font-size: 22px;
+  line-height: 1;
+  cursor: pointer;
+  color: #0f172a;
+}
+
+.ba-modal-subtitle {
+  margin: 0 0 10px;
+  font-size: 15px;
+  color: #4b5563;
+}
+
+.ba-modal-numbers {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  max-height: 220px;
+  overflow-y: auto;
+}
+
+.ba-modal-empty {
+  margin-top: 6px;
 }
 
 .ba-footer {
