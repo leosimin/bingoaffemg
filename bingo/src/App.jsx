@@ -1,8 +1,34 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import affemgLogo from './assets/AFFEMG esfera (1).png'
 import './App.css'
 
 const CURRENT_YEAR = new Date().getFullYear()
+
+const STORAGE_KEY = 'bingo-affemg-state-v1'
+
+let cachedInitialState
+
+function getInitialState() {
+  if (cachedInitialState !== undefined) return cachedInitialState
+
+  if (typeof globalThis === 'undefined' || !globalThis.localStorage) {
+    cachedInitialState = null
+    return cachedInitialState
+  }
+
+  try {
+    const raw = globalThis.localStorage.getItem(STORAGE_KEY)
+    if (!raw) {
+      cachedInitialState = null
+      return cachedInitialState
+    }
+    cachedInitialState = JSON.parse(raw)
+  } catch {
+    cachedInitialState = null
+  }
+
+  return cachedInitialState
+}
 
 const MENSAGENS_ESPECIAIS = {
   1: 'Começou o jogo! O pequeno polegar.',
@@ -22,16 +48,65 @@ const MENSAGENS_ESPECIAIS = {
 }
 
 function App() {
-  const [marcados, setMarcados] = useState(() => new Set())
-  const [ultimaFrase, setUltimaFrase] = useState('')
-  const [rodadaAtual, setRodadaAtual] = useState(1)
-  const [rodadaParaRegistrar, setRodadaParaRegistrar] = useState(null)
-  const [nomeVencedor, setNomeVencedor] = useState('')
-  const [vencedores, setVencedores] = useState([])
+  const initialState = getInitialState()
+
+  const [marcados, setMarcados] = useState(
+    () =>
+      initialState && Array.isArray(initialState.marcados)
+        ? new Set(initialState.marcados)
+        : new Set(),
+  )
+  const [ultimaFrase, setUltimaFrase] = useState(
+    () =>
+      initialState && typeof initialState.ultimaFrase === 'string'
+        ? initialState.ultimaFrase
+        : '',
+  )
+  const [rodadaAtual, setRodadaAtual] = useState(
+    () =>
+      initialState && typeof initialState.rodadaAtual === 'number'
+        ? initialState.rodadaAtual
+        : 1,
+  )
+  const [rodadaParaRegistrar, setRodadaParaRegistrar] = useState(
+    () =>
+      initialState && (initialState.rodadaParaRegistrar === null || typeof initialState.rodadaParaRegistrar === 'number')
+        ? initialState.rodadaParaRegistrar
+        : null,
+  )
+  const [nomeVencedor, setNomeVencedor] = useState(
+    () =>
+      initialState && typeof initialState.nomeVencedor === 'string'
+        ? initialState.nomeVencedor
+        : '',
+  )
+  const [vencedores, setVencedores] = useState(
+    () =>
+      initialState && Array.isArray(initialState.vencedores)
+        ? initialState.vencedores
+        : [],
+  )
 
   const numeros = Array.from({ length: 75 }, (_, i) => i + 1)
   const totalNumeros = numeros.length
   const quantidadeMarcados = marcados.size
+
+  // Salva estado sempre que algo importante mudar
+  useEffect(() => {
+    try {
+      const data = {
+        marcados: Array.from(marcados),
+        ultimaFrase,
+        rodadaAtual,
+        rodadaParaRegistrar,
+        nomeVencedor,
+        vencedores,
+      }
+      globalThis.localStorage?.setItem(STORAGE_KEY, JSON.stringify(data))
+    } catch (error) {
+      console.error('Erro ao salvar estado do bingo:', error)
+    }
+  }, [marcados, ultimaFrase, rodadaAtual, rodadaParaRegistrar, nomeVencedor, vencedores])
 
   const alternarNumero = (numero) => {
     setMarcados((anteriores) => {
