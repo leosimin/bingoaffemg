@@ -123,8 +123,8 @@
 }
 
 .ba-current-number {
-  min-width: 190px;
-  padding: 15px 120px;
+  min-width: 0;
+  padding: 15px 8vw;
   border-radius: 999px;
   background: radial-gradient(circle at top left, #ecfdf5, #dcfce7);
   border: 1px solid rgba(34, 197, 94, 0.7);
@@ -137,7 +137,7 @@
 }
 
 .ba-current-label {
-  font-size: 40px;
+  font-size: clamp(18px, 2.4vw, 32px);
   margin-top: 7px;
   text-transform: uppercase;
   letter-spacing: 0.18em;
@@ -146,7 +146,7 @@
 
 .ba-current-value {
   margin-top: 10px;
-  font-size: 120px;
+  font-size: clamp(56px, 8vw, 120px);
   font-weight: 700;
   line-height: 1;
   color: #095241;
@@ -160,6 +160,10 @@
 
 .ba-current-number--empty .ba-current-label {
   color: #e5e7eb;
+  text-align: center;
+  width: 100%;
+  letter-spacing: 0.14em;
+  font-size: clamp(16px, 2.1vw, 26px);
 }
 
 .ba-header-bottom {
