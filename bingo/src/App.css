@@ -745,6 +745,21 @@
     flex-wrap: wrap;
   }
 
+  .ba-current-number {
+    padding: 10px 28px;
+    min-width: 0;
+    align-items: flex-start;
+  }
+
+  .ba-current-label {
+    font-size: 20px;
+    letter-spacing: 0.12em;
+  }
+
+  .ba-current-value {
+    font-size: 64px;
+  }
+
   .ba-header-bottom {
     padding: 4px 20px 4px;
     flex-wrap: wrap;
@@ -803,6 +818,20 @@
   .ba-logo {
     max-width: 62px;
     max-height: 62px;
+  }
+
+  .ba-current-number {
+    width: 100%;
+    padding: 10px 16px;
+    align-items: center;
+  }
+
+  .ba-current-label {
+    font-size: 16px;
+  }
+
+  .ba-current-value {
+    font-size: 48px;
   }
 
   .ba-grid {
