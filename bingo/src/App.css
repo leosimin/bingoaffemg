@@ -1,3 +1,5 @@
+@import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=DM+Serif+Display&display=swap');
+
 /* Layout principal da aplicação de bingo AFFEMG */
 
 .bingo-app {
@@ -8,12 +10,13 @@
 }
 
 .ba-header {
-  padding: 22px 0 18px;
+  padding: 26px 0 22px;
   border-bottom: 1px solid var(--border);
   background: radial-gradient(circle at top left, #0f766e 0, #0369a1 40%, #0f172a 100%);
   color: #f9fafb;
   position: relative;
   overflow: hidden;
+  font-family: 'Arial' BlinkMacSystemFont, 'SI', sans-serif;
 }
 
 .ba-header::after {
@@ -65,7 +68,7 @@
 .ba-title-group {
   display: flex;
   flex-direction: column;
-  gap: 6px;
+  gap: 10px;
 }
 
 .ba-tagline {
@@ -78,13 +81,16 @@
 .ba-header h1 {
   margin: 0;
   font-size: 50px;
-  letter-spacing: -0.04em;
+  letter-spacing: -0.045em;
+  line-height: 1.05;
   color: #ffffff;
+  font-family: 'Arial', 'Times New Roman', serif;
 }
 
 .ba-subtitle {
-  margin: 2px 0 0;
-  font-size: 16px;
+  margin: 0;
+  font-size: 18px;
+  line-height: 1.35;
   opacity: 0.9;
 }
 
@@ -179,13 +185,45 @@
 }
 
 .ba-board-header h2 {
-  margin: 0 0 4px;
+  margin: 0 0 6px;
+  font-size: 26px;
+  letter-spacing: -0.03em;
+  color: #0f172a;
 }
 
 .ba-board-header p {
   margin: 0;
-  font-size: 16px;
+  font-size: 17px;
   color: #4b5563;
+}
+
+.ba-callout {
+  margin-top: 16px;
+  margin-bottom: 0;
+  padding: 12px 16px;
+  border-radius: 14px;
+  background: linear-gradient(135deg, rgba(250, 204, 21, 0.12), rgba(251, 146, 60, 0.2));
+  border: 1px solid rgba(251, 191, 36, 0.9);
+  box-shadow:
+    0 10px 24px rgba(15, 23, 42, 0.16),
+    0 0 0 1px rgba(255, 255, 255, 0.8) inset;
+  position: relative;
+}
+
+.ba-callout-label {
+  display: block;
+  font-size: 12px;
+  text-transform: uppercase;
+  letter-spacing: 0.14em;
+  color: #92400e;
+  margin-bottom: 2px;
+}
+
+.ba-callout-text {
+  margin: 0;
+  font-size: 17px;
+  color: #78350f;
+  font-weight: 600;
 }
 
 .ba-board-legend {
@@ -193,7 +231,7 @@
   align-items: center;
   gap: 18px;
   margin: 18px 0 12px;
-  font-size: 14px;
+  font-size: 15px;
   color: #4b5563;
 }
 
@@ -281,13 +319,15 @@
 
 .ba-side-card h3 {
   margin-top: 0;
-  margin-bottom: 8px;
-  font-size: 22px;
+  margin-bottom: 6px;
+  font-size: 24px;
+  letter-spacing: -0.02em;
+  color: #0f172a;
 }
 
 .ba-resume {
   margin: 0 0 16px;
-  font-size: 16px;
+  font-size: 17px;
 }
 
 .ba-resume strong {
@@ -306,17 +346,17 @@
 }
 
 .ba-pill {
-  padding: 4px 10px;
+  padding: 5px 11px;
   border-radius: 999px;
   background: #dcfce7;
   color: #14532d;
   border: 1px solid rgba(22, 163, 74, 0.6);
-  font-size: 13px;
+  font-size: 14px;
 }
 
 .ba-muted {
   margin: 0 0 14px;
-  font-size: 15px;
+  font-size: 16px;
   color: #6b7280;
 }
 
@@ -330,7 +370,7 @@
   border: 1px solid rgba(239, 68, 68, 0.5);
   background: rgba(248, 250, 252, 0.9);
   color: #b91c1c;
-  font-size: 14px;
+  font-size: 15px;
   font-weight: 500;
   cursor: pointer;
   transition:
@@ -354,7 +394,7 @@
 
 .ba-footnote {
   margin-top: 18px;
-  font-size: 13px;
+  font-size: 14px;
   color: #6b7280;
 }
 

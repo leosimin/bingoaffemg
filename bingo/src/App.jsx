@@ -4,8 +4,26 @@ import './App.css'
 
 const CURRENT_YEAR = new Date().getFullYear()
 
+const MENSAGENS_ESPECIAIS = {
+  1: 'Começou o jogo! O pequeno polegar.',
+  10: 'Craque de bola!',
+  11: 'Pernas de cambito!',
+  13: 'Galo Forte e Vingador! 🐓',
+  18: 'Idade da liberdade!',
+  22: 'Dois patinhos na lagoa! 🦆🦆',
+  31: 'Tudo que cai, cai em pé!',
+  33: 'Idade de Cristo!',
+  45: 'Fim do primeiro tempo!',
+  50: 'Meio século!',
+  51: 'Uma boa ideia! 🥃',
+  60: 'E o tempo passa...',
+  66: 'Um meia seis ou meia dúzia?',
+  75: 'Fim da linha! É o fim do globo!',
+}
+
 function App() {
   const [marcados, setMarcados] = useState(() => new Set())
+  const [ultimaFrase, setUltimaFrase] = useState('')
 
   const numeros = Array.from({ length: 75 }, (_, i) => i + 1)
   const totalNumeros = numeros.length
@@ -14,17 +32,25 @@ function App() {
   const alternarNumero = (numero) => {
     setMarcados((anteriores) => {
       const proximo = new Set(anteriores)
-      if (proximo.has(numero)) {
+      const jaMarcado = proximo.has(numero)
+
+      if (jaMarcado) {
         proximo.delete(numero)
       } else {
         proximo.add(numero)
+        const frase = MENSAGENS_ESPECIAIS[numero]
+        if (frase) {
+          setUltimaFrase(`${numero}: ${frase}`)
+        }
       }
+
       return proximo
     })
   }
 
   const limparMarcacoes = () => {
     setMarcados(new Set())
+    setUltimaFrase('')
   }
 
   const numerosMarcadosOrdenados = Array.from(marcados).sort((a, b) => a - b)
@@ -45,7 +71,7 @@ function App() {
               <span className="ba-tagline">ASSOCIAÇÃO DOS FUNCIONÁRIOS DO FISCO DE MINAS GERAIS</span>
               <h1>Bingo AFFEMG</h1>
               <p className="ba-subtitle">
-                Tela oficial para acompanhamento do sorteio, ideal para projeção em telão.
+                Encontro de Pensionistas
               </p>
             </div>
           </div>
@@ -68,10 +94,6 @@ function App() {
         <section className="ba-board-card" aria-label="Painel de números do bingo">
           <div className="ba-board-header">
             <h2>Números do sorteio</h2>
-            <p>
-              Toque ou clique para marcar e desmarcar cada número. Ideal para
-              projetar em telão durante o bingo da AFFEMG.
-            </p>
           </div>
 
           <div className="ba-board-legend" aria-hidden="true">
@@ -137,6 +159,13 @@ function App() {
             As bolas continuam sendo sorteadas presencialmente; esta tela serve
             apenas como apoio visual para o público.
           </p>
+
+          {ultimaFrase && (
+            <div className="ba-callout" aria-live="polite">
+              <span className="ba-callout-label">Última bolinha especial</span>
+              <p className="ba-callout-text">{ultimaFrase}</p>
+            </div>
+          )}
         </aside>
       </main>
 
