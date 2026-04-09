@@ -1,20 +1,18 @@
 import streamlit as st
-from streamlit_autorefresh import st_autorefresh
 
-# 1. Configuração da página - DEVE SER A PRIMEIRA LINHA
+# 1. Configuração da página
 st.set_page_config(page_title="Bingo Encontro de Pensionistas AFFEMG", layout="wide")
-
-# --- AUTOREFRESH (PARA O TELÃO ATUALIZAR SOZINHO) ---
-st_autorefresh(interval=3000, key="bingofresher")
 
 # --- FUNÇÃO DE SINCRONIZAÇÃO (BINGO COMPARTILHADO) ---
 @st.cache_resource
 def iniciar_bingo_compartilhado():
+    # Isso cria uma lista que todos os usuários conectados verão igual
     return {"lista": []}
 
+# Conecta ao "banco de dados" compartilhado
 bingo_global = iniciar_bingo_compartilhado()
 
-# --- DICIONÁRIO DE APELIDOS ---
+# --- DICIONÁRIO DE APELIDOS DAS PEDRAS ---
 APELIDOS = {
     1: "Começou o jogo! O pequeno polegar.",
     10: "Craque de bola!",
@@ -66,15 +64,13 @@ st.markdown("""
     }
     .ultima-pedra-container {
         background-color: #FFF9C4;
-        border-radius: 200px;
-        padding: 20px;
+        border-radius: 20px;
+        padding: 10px;
         text-align: center;
         border: 5px dashed #FFD600;
-        max-width: 800px;
-        margin: 0 auto;
     }
     .ultima-pedra-numero { 
-        font-size: 160px !important; 
+        font-size: 150px !important; 
         font-weight: 900; 
         color: #D32F2F; 
         margin: 0px;
@@ -84,7 +80,8 @@ st.markdown("""
         font-size: 45px !important;
         color: #1E88E5;
         font-weight: bold;
-        margin-top: -10px;
+        margin-top: -20px;
+        padding-bottom: 10px;
     }
     .historico-caixa {
         background-color: #E3F2FD;
@@ -92,22 +89,17 @@ st.markdown("""
         border-radius: 15px;
         text-align: center;
         border: 2px solid #2196F3;
-        margin-top: 20px;
+        margin-top: 10px;
     }
     </style>
     """, unsafe_allow_html=True)
 
-# --- CABEÇALHO COM LOGO (CORRIGIDO E CENTRALIZADO) ---
-# Aqui definimos 5 colunas para a logo ficar pequena e centralizada
-c_l1, c_l2, c_l3, c_l4, c_l5 = st.columns()
-with c_l3:
-    st.image("https://cdn.prod.website-files.com/5e18db1989b3944e9ee4778b/5e43078c68b52b8cba3ac668_Logo-AFFEMG_256x.png", use_container_width=True)
+# --- CABEÇALHO ---
+st.markdown('<p class="titulo-principal">🎊 BINGO AFFEMG - Encontro de Pensionistas 🎊</p>', unsafe_allow_html=True)
+st.markdown('<p class="frase-efeito">"Sorte no jogo, alegria no coração e o grito de BINGO na ponta da língua!"</p>', unsafe_allow_html=True)
 
-st.markdown('<p class="titulo-principal">🎊 BINGO AFFEMG 🎊</p>', unsafe_allow_html=True)
-st.markdown('<p class="frase-efeito">Encontro de Pensionistas: Alegria e Sorte!</p>', unsafe_allow_html=True)
-
-# --- 3. CONTROLE DO ALEXANDRE ---
-with st.expander("⚙️ PAINEL DE CONTROLE (Alexandre)", expanded=True):
+# 3. CONTROLE
+with st.expander("⚙️ Painel do Alexandre", expanded=True):
     c1, c2 = st.columns(2)
     with c1:
         entrada = st.number_input("Digite o número (1-75):", min_value=1, max_value=75, step=1, value=None)
@@ -120,31 +112,32 @@ with st.expander("⚙️ PAINEL DE CONTROLE (Alexandre)", expanded=True):
             bingo_global["lista"].clear()
             st.rerun()
 
-# --- 4. EXIBIÇÃO PARA O TELÃO ---
+# 4. EXIBIÇÃO
 if bingo_global["lista"]:
     ultimo = bingo_global["lista"][-1]
     apelido = APELIDOS.get(ultimo, "")
+    
     st.markdown(f"""
         <div class="ultima-pedra-container">
-            <span style="font-size: 30px; font-weight: bold; color: #555;">SORTEADA:</span>
-            <p class="ultima-pedra-numero">{ultimo}</p>
+            <span style="font-size: 30px; font-weight: bold; color: #555;">SAIU A PEDRA:</span>
+            <p class="ultima-pedra-numero"> {ultimo} </p>
             <p class="apelido-pedra">{apelido}</p>
         </div>
     """, unsafe_allow_html=True)
     
-    hist = " • ".join(map(str, bingo_global["lista"]))
+    historico_fundo = " • ".join(map(str, bingo_global["lista"]))
     st.markdown(f"""
         <div class="historico-caixa">
-            <span style="font-size: 22px; font-weight: bold;">PEDRAS JÁ SORTEADAS:</span><br>
-            <span style="font-size: 35px; color: #0D47A1; font-weight: bold;">{hist}</span>
+            <span style="font-size: 20px; font-weight: bold;">Caminho da Sorte:</span><br>
+            <span style="font-size: 30px; color: #0D47A1; font-weight: bold;">{historico_fundo}</span>
         </div>
     """, unsafe_allow_html=True)
 else:
-    st.markdown('<div class="ultima-pedra-container"><p style="font-size: 40px; color: gray; font-weight: bold; padding: 40px;">AGUARDANDO SORTEIO...</p></div>', unsafe_allow_html=True)
+    st.markdown('<div class="ultima-pedra-container"><p style="font-size: 40px; color: gray; font-weight: bold; padding: 40px;">Aguardando o sorteio...</p></div>', unsafe_allow_html=True)
 
-st.write("---")
+st.write("###")
 
-# --- 5. GRADE GERAL (1-75) ---
+# 5. GRADE
 for row in range(5):
     cols = st.columns(15)
     for col_idx in range(15):
@@ -159,3 +152,6 @@ for row in range(5):
                     if st.button(f"{num}", key=f"btn_{num}", use_container_width=True):
                         bingo_global["lista"].append(num)
                         st.rerun()
+
+# Autorefresh: opcional, para a tela do auditório atualizar sozinha sem precisar dar F5
+# st.empty() pode ser usado ou componentes de terceiros como streamlit-autorefresh
